@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/categories"
+        android:icon="@drawable/ic_categories"
+        android:title="@string/categories" />
+    <item
+        android:id="@+id/sources"
+        android:icon="@drawable/ic_sources"
+        android:title="@string/sources" />
+    <item
+        android:id="@+id/bookmarks"
+        android:icon="@drawable/ic_bookmarks"
+        android:title="@string/bookmarks" />
+    <item
+        android:id="@+id/account"
+        android:icon="@drawable/ic_account"
+        android:title="@string/account" />
+</menu>
