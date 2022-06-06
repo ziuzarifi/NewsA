@@ -15,9 +15,9 @@ interface NewsAPI {
         @Query("country")
         countryCode: String = "us",
 
-        @Query("page") @IntRange(from = 1) pageNumber : Int = 1,
+        @Query("page") /*@IntRange(from = 1)*/ pageNumber : Int = 1,
 
-        @Query("pageSize") @IntRange(from = 1, to = Long.MAX_VALUE) pageSize : Int = DEFAULT_BUFFER_SIZE,
+        /*@Query("pageSize") @IntRange(from = 1, to = Long.MAX_VALUE) pageSize : Int = DEFAULT_BUFFER_SIZE,*/
 
         @Query("category") category: String? = "",
 

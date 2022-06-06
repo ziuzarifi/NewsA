@@ -36,7 +36,6 @@
         android:id="@+id/shimmer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:layout_marginTop="56dp"
         android:gravity="center"
         android:orientation="vertical"
@@ -50,11 +49,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-            <include layout="@layout/shimmer_placeholder_layout" />
-
-            <include layout="@layout/shimmer_placeholder_layout" />
-
             <include layout="@layout/shimmer_placeholder_layout" />
             <include layout="@layout/shimmer_placeholder_layout" />
             <include layout="@layout/shimmer_placeholder_layout" />
@@ -63,8 +57,8 @@
             <include layout="@layout/shimmer_placeholder_layout" />
             <include layout="@layout/shimmer_placeholder_layout" />
             <include layout="@layout/shimmer_placeholder_layout" />
-
-
+            <include layout="@layout/shimmer_placeholder_layout" />
+            <include layout="@layout/shimmer_placeholder_layout" />
 
         </LinearLayout>
 
