@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.news.R
 import com.example.news.databinding.ActivityMainBinding
+import model.db.ArticleDatabase
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 //        binding.bottomNav.itemIconTintList = null
         navController = findNavController(R.id.fragmentContainerView)

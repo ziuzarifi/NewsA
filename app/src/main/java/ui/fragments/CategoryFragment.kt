@@ -2,11 +2,14 @@ package ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.news.R
@@ -17,6 +20,7 @@ import model.articles.NewsResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import ui.NewsViewModel
 import ui.adapters.ArticlesAdapter
 import ui.utils.OnClickCategory
 
@@ -28,6 +32,8 @@ class CategoryFragment : Fragment(), OnClickCategory {
     lateinit var toolBarTitle: TextView
     private var category: String? = ""
 
+    private lateinit var newsViewModel: NewsViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +43,7 @@ class CategoryFragment : Fragment(), OnClickCategory {
 
         binding.toolbar.setNavigationIcon(R.drawable.ic_back_button)
         binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
-
+        newsViewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
         return binding.root
     }
 
@@ -49,12 +55,17 @@ class CategoryFragment : Fragment(), OnClickCategory {
             category = arguments!!.getString("category").toString()
         }
 
-        getNewsByCategory(category = category.toString())
+
+
+        getNewsByCategory(
+            category = category.toString(),
+            newsViewModel = newsViewModel
+        )
         toolBarTitle = view.findViewById(R.id.toolbar_title)
         toolBarTitle.text = category
     }
 
-    private fun getNewsByCategory(category: String) {
+    private fun getNewsByCategory(category: String, newsViewModel: NewsViewModel) {
 
         val apiInterface = RetrofitInstance.api
 
@@ -63,14 +74,41 @@ class CategoryFragment : Fragment(), OnClickCategory {
         ).enqueue(object : Callback<NewsResponse> {
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 if (response.isSuccessful) {
+                    newsViewModel.deleteAllArticles(category = category)
                     binding.apply {
                         shimmer.stopShimmerAnimation()
                         shimmer.visibility = View.GONE
                         rcView.layoutManager = GridLayoutManager(context, 1)
                         rcView.adapter = adapter
-                        response.body()?.let {
-                            adapter.addArticles(it.articles)
+
+
+
+
+
+
+
+
+                        response.body()?.articles?.forEach {
+
+                            it.category = category
+                            newsViewModel.upsert(it)
                         }
+
+
+                        response.body()?.articles.let {
+                            if (it != null) {
+                                adapter.addArticles(it)
+                            }
+                        }
+
+//                        newsViewModel.getAllArticles(category = category).observe(viewLifecycleOwner) {
+//                            adapter.addArticles(it)
+//                            Log.e("TAG", "onResponse: $it",)
+//                        }
+
+
+
+
                     }
                 }
             }

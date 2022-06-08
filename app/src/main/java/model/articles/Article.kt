@@ -1,5 +1,6 @@
 package model.articles
 
+import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -9,15 +10,16 @@ import androidx.room.PrimaryKey
 )
 data class Article(
     @PrimaryKey(autoGenerate = true)
-    var id: Int? = null,
-    val author: String,
-    val content: String,
-    val description: String,
-    val publishedAt: String,
+    @NonNull
+    var id: Int,
+    val author: String? = null,
+    val content: String? = null,
+    val description: String? = null,
+    val publishedAt: String? = null,
     val source: Source,
     val title: String,
     val url: String,
     val urlToImage: String?,
-    val category: String,
+    var category: String? = null,
     val isFavorite: Boolean = false
 )
