@@ -34,7 +34,6 @@ class ArticlesAdapter(
                 frame.visibility = View.GONE
             }
 
-
         }
     }
 
@@ -55,7 +54,7 @@ class ArticlesAdapter(
         return articlesList.size
     }
 
-    fun addArticles(list: List<Article>) {
+    fun setArticles(list: List<Article>) {
         articlesList = list
     }
 

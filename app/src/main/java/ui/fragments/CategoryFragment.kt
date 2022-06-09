@@ -2,14 +2,12 @@ package ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.news.R
@@ -81,23 +79,17 @@ class CategoryFragment : Fragment(), OnClickCategory {
                         rcView.layoutManager = GridLayoutManager(context, 1)
                         rcView.adapter = adapter
 
-
-
-
-
-
-
-
                         response.body()?.articles?.forEach {
 
                             it.category = category
                             newsViewModel.upsert(it)
+//                            newsViewModel.getAllArticles(it.toString())
                         }
 
 
                         response.body()?.articles.let {
                             if (it != null) {
-                                adapter.addArticles(it)
+                                adapter.setArticles(it)
                             }
                         }
 
@@ -105,9 +97,6 @@ class CategoryFragment : Fragment(), OnClickCategory {
 //                            adapter.addArticles(it)
 //                            Log.e("TAG", "onResponse: $it",)
 //                        }
-
-
-
 
                     }
                 }

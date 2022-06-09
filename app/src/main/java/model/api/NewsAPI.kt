@@ -38,9 +38,6 @@ interface NewsAPI {
         apiKey: String = API_KEY
     ): Response<NewsResponse>*/
 
-
-
-
     @GET("/v2/top-headlines/sources")
     fun getNewsBySource(
         @Query("apiKey")

@@ -17,7 +17,6 @@ interface ArticleDao {
     @Delete
     suspend fun deleteArticle(article: Article)
 
-
     @Query("delete from articles where category = :category")
     fun deleteByCategory(category: String)
 }

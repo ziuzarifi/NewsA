@@ -10,6 +10,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import model.articles.Article
+import model.db.ArticleDao
 import model.db.ArticleDatabase
 
 @OptIn(DelicateCoroutinesApi::class)
