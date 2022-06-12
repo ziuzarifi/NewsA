@@ -30,9 +30,9 @@ class BookmarksFragment : Fragment(), OnClickCategory {
         viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
 
 
-        viewModel.getAllArticles().observe(viewLifecycleOwner, Observer { arguments ->
+        /*viewModel.getAllArticles().observe(viewLifecycleOwner, Observer { arguments ->
             adapter.articlesList
-        })
+        })*/
 
         return binding.root
     }
