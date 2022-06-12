@@ -10,7 +10,7 @@ import model.articles.Article
 
 @Database(
     entities = [Article::class],
-    version = 4
+    version = 7
 )
 @TypeConverters(Converters::class)
 abstract class ArticleDatabase : RoomDatabase() {

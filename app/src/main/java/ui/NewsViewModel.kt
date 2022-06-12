@@ -1,16 +1,12 @@
 package ui
 
-import android.annotation.SuppressLint
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import model.articles.Article
-import model.db.ArticleDao
 import model.db.ArticleDatabase
 
 @OptIn(DelicateCoroutinesApi::class)
@@ -22,8 +18,8 @@ class NewsViewModel(
 
     private val articleDao = ArticleDatabase(context = application).getArticleDao()
 
-    fun getAllArticles(category: String): LiveData<List<Article>> {
-        return articleDao.getAllArticles(category = category)
+    fun getAllArticles(): List<Article> {
+        return articleDao.getAllArticles()
     }
 
     fun upsert(article: Article) = GlobalScope.launch {
@@ -38,6 +34,18 @@ class NewsViewModel(
 
     fun deleteAllArticles(category: String) = GlobalScope.launch {
         articleDao.deleteByCategory(category = category)
+    }
+
+    fun setAsFavorite(title: String) = GlobalScope.launch {
+        articleDao.setAsFavorite(title)
+    }
+
+    fun getAllFavorites(): LiveData<List<Article>> {
+        return articleDao.getAllFavorites()
+    }
+
+    fun deleteArticleByTitle(title: String) = GlobalScope.launch {
+        articleDao.deleteArticleByTitle(title)
     }
 
 }

@@ -20,7 +20,7 @@ class SearchForNewsAdapter(
 
         fun bind(article: Article) = with(binding) {
             tvTitle.text = article.title
-            textView.text = article.source.name
+            textView.text = article.source?.name
             article.urlToImage?.let {
                 pBar.visibility = View.GONE
                 Glide.with(imView).load(article.urlToImage).into(imView)

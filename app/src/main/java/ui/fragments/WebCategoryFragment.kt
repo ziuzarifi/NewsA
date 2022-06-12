@@ -1,19 +1,18 @@
 package ui.fragments
 
-import android.R.attr.defaultValue
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Environment
-import android.os.Environment.MEDIA_MOUNTED
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.news.databinding.FragmentWebCategoryBinding
-import com.google.android.material.snackbar.Snackbar
-import ui.MainActivity
+import model.articles.Article
+import model.articles.Source
 import ui.NewsViewModel
 import java.io.File
 
@@ -31,74 +30,71 @@ class WebCategoryFragment : Fragment() {
         binding = FragmentWebCategoryBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
 
-
-
-//        binding.fab.setOnClickListener(
-            //            val file: File
-//            val fileNameExternal = "myPage"
-//            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-//
-//                file = File(Environment.getExternalStoragePublicDirectory(
-//                    Environment.DIRECTORY_DOCUMENTS),
-//                    fileNameExternal
-//                )
-//
-//                binding.webView.saveWebArchive("$file.mht")
-//            }
-//        )
-
         binding.webView.apply {
             // WebViewClient allows you to handle
             // onPageFinished and override Url loading.
             webViewClient = WebViewClient()
-
-
             settings.allowFileAccess = true
-
-
-
-//            read offline
-            val file: File
-            val fileNameExternal = "myPage"
-            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-
-                file = File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOCUMENTS),
-                    fileNameExternal
-                )
-
-                loadUrl("$file.mht")
-            }
-
-//
-
-
-
-
-            loadUrl(arguments?.getString("category") ?: "https://newsapi.org/")
-
             settings.javaScriptEnabled = true
-
             settings.setSupportZoom(true)
 
-            binding.fab.setOnClickListener {
-                view?.let {
+            val file: File
 
-                        it1 -> Snackbar.make(it1, "Article saved successfully", Snackbar.LENGTH_LONG).show()
+            var title = arguments?.getString("title2")
+            val re = "[^A-Za-z0-9 ]".toRegex()
 
-                    val file: File
-                    val fileNameExternal = "myPage"
-                    if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-
-                        file = File(Environment.getExternalStoragePublicDirectory(
-                            Environment.DIRECTORY_DOCUMENTS),
-                            fileNameExternal
-                        )
-
-                        binding.webView.saveWebArchive("$file.mht")
-                    }
+            title = re.replace(title.toString(), "")
 
 
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                file = File(
+                    Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_DOCUMENTS
+                    ),
+                    "Item$title"
+                )
+
+                if (arguments?.getBoolean("isOnline") == true){
+                    loadUrl(arguments?.getString("url") ?: "https://newsapi.org/")
+                }else{
+                    loadUrl("$file.mht")
+                }
+            }
+
+        }
+
+        binding.fab.setOnClickListener {
+            view?.let {
+
+//                it1 -> Snackbar.make(it1, "Article saved successfully", Snackbar.LENGTH_LONG).show()
+
+                val file: File
+
+                var title = arguments?.getString("title2")
+                val re = "[^A-Za-z0-9 ]".toRegex()
+                title = re.replace(title.toString(), "")
+
+                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                    file = File(
+                        Environment.getExternalStoragePublicDirectory(
+                            Environment.DIRECTORY_DOCUMENTS
+                        ),
+                        "Item$title"
+                    )
+
+                    Toast.makeText(context, file.toString(), Toast.LENGTH_SHORT).show()
+
+                    binding.webView.saveWebArchive("$file.mht")
+
+                    // viewModel.setAsFavorite(arguments?.getString("title").toString())
+
+                   val currentItem = Article(0, "", "", "", "", Source("", arguments?.getString("source").toString()),
+                        arguments?.getString("title").toString(), "", arguments?.getString("urlToImage").toString(),
+                        "", true)
+
+
+                    viewModel.deleteArticleByTitle(arguments?.getString("title").toString())
+                    viewModel.upsert(currentItem)
 
                 }
             }

@@ -26,7 +26,7 @@ import ui.utils.OnClickCategory
 class CategoryFragment : Fragment(), OnClickCategory {
 
     lateinit var binding: FragmentCategoryBinding
-    private val adapter = ArticlesAdapter(this)
+    private val adapter = ArticlesAdapter(this, this)
     lateinit var toolBarTitle: TextView
     private var category: String? = ""
 
@@ -72,19 +72,21 @@ class CategoryFragment : Fragment(), OnClickCategory {
         ).enqueue(object : Callback<NewsResponse> {
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 if (response.isSuccessful) {
-                    newsViewModel.deleteAllArticles(category = category)
+
+//                    newsViewModel.deleteAllArticles(category = category)
+
                     binding.apply {
                         shimmer.stopShimmerAnimation()
                         shimmer.visibility = View.GONE
                         rcView.layoutManager = GridLayoutManager(context, 1)
                         rcView.adapter = adapter
 
-                        response.body()?.articles?.forEach {
 
-                            it.category = category
-                            newsViewModel.upsert(it)
-//                            newsViewModel.getAllArticles(it.toString())
-                        }
+
+//                        response.body()?.articles?.forEach {
+//                            it.category = category
+//                            newsViewModel.upsert(it)
+//                        }
 
 
                         response.body()?.articles.let {
@@ -110,8 +112,20 @@ class CategoryFragment : Fragment(), OnClickCategory {
 
     override fun onClickCategory(category: Article) {
         val bundle = Bundle()
-        bundle.putString("category", category.url)
+
+        bundle.putBoolean("isOnline", true)
+
+        bundle.putString("url", category.url)
+        bundle.putString("source", category.source.name)
+
+        bundle.putString("urlToImage", category.urlToImage)
+
+        bundle.putString("title", category.title)
+
         findNavController().navigate(R.id.webCategoryFragment, bundle)
+    }
+
+    override fun onLongClickCategory(category: Article) {
     }
 
 }

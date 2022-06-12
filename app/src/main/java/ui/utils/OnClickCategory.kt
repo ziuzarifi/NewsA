@@ -6,4 +6,6 @@ import model.source.Source
 
 interface OnClickCategory {
     fun onClickCategory(category: Article)
+
+    fun onLongClickCategory(category: Article)
 }
