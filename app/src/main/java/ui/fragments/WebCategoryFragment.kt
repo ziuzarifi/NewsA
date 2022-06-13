@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.news.databinding.FragmentWebCategoryBinding
+import com.google.android.material.snackbar.Snackbar
 import model.articles.Article
 import model.articles.Source
 import ui.NewsViewModel
@@ -40,7 +41,7 @@ class WebCategoryFragment : Fragment() {
 
             val file: File
 
-            var title = arguments?.getString("title2")
+            var title = arguments?.getString("title")
             val re = "[^A-Za-z0-9 ]".toRegex()
 
             title = re.replace(title.toString(), "")
@@ -66,11 +67,11 @@ class WebCategoryFragment : Fragment() {
         binding.fab.setOnClickListener {
             view?.let {
 
-//                it1 -> Snackbar.make(it1, "Article saved successfully", Snackbar.LENGTH_LONG).show()
+                it1 -> Snackbar.make(it1, "Article saved successfully", Snackbar.LENGTH_LONG).show()
 
                 val file: File
 
-                var title = arguments?.getString("title2")
+                var title = arguments?.getString("title")
                 val re = "[^A-Za-z0-9 ]".toRegex()
                 title = re.replace(title.toString(), "")
 
@@ -82,7 +83,7 @@ class WebCategoryFragment : Fragment() {
                         "Item$title"
                     )
 
-                    Toast.makeText(context, file.toString(), Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(context, file.toString(), Toast.LENGTH_SHORT).show()
 
                     binding.webView.saveWebArchive("$file.mht")
 

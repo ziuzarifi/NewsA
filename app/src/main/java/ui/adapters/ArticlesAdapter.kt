@@ -11,12 +11,11 @@ import model.articles.Article
 import ui.utils.OnClickCategory
 
 class ArticlesAdapter(
-    private val onClick: OnClickCategory,
-    private val onLongClick: OnClickCategory,
+    private val onClick: OnClickCategory
 ): RecyclerView.Adapter<ArticlesAdapter.ArticleHolder>() {
 
 
-    private var articlesList = emptyList<Article>()
+    var articlesList = emptyList<Article>()
 
     class ArticleHolder(item: View): RecyclerView.ViewHolder(item) {
 
@@ -25,7 +24,7 @@ class ArticlesAdapter(
 
         fun bind(article: Article) = with(binding) {
             tvTitle.text = article.title
-            textView.text = article.source?.name
+            textView.text = article.source.name
             article.urlToImage?.let {
                 pBar.visibility = View.GONE
                 Glide.with(imView).load(article.urlToImage).into(imView)
@@ -50,11 +49,6 @@ class ArticlesAdapter(
         holder.itemView.setOnClickListener {
             onClick.onClickCategory(currentItem)
         }
-
-        holder.itemView.setOnLongClickListener{
-            onLongClick.onClickCategory(currentItem)
-            true
-        }
     }
 
 
@@ -65,7 +59,5 @@ class ArticlesAdapter(
     fun setArticles(list: List<Article>) {
         articlesList = list
     }
-
-
 
 }

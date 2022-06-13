@@ -26,7 +26,7 @@ import ui.utils.OnClickCategory
 class CategoryFragment : Fragment(), OnClickCategory {
 
     lateinit var binding: FragmentCategoryBinding
-    private val adapter = ArticlesAdapter(this, this)
+    private val adapter = ArticlesAdapter(this)
     lateinit var toolBarTitle: TextView
     private var category: String? = ""
 
@@ -123,9 +123,6 @@ class CategoryFragment : Fragment(), OnClickCategory {
         bundle.putString("title", category.title)
 
         findNavController().navigate(R.id.webCategoryFragment, bundle)
-    }
-
-    override fun onLongClickCategory(category: Article) {
     }
 
 }
