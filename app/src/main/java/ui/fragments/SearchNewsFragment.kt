@@ -2,55 +2,51 @@ package ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.widget.SearchView
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.news.R
-import com.example.news.databinding.FragmentCategoryBinding
-import com.example.news.databinding.FragmentSearchForNewsBinding
-import com.example.news.databinding.FragmentSourcesBinding
+import com.example.news.databinding.FragmentSearchNewsBinding
 import model.api.RetrofitInstance
 import model.articles.Article
 import model.articles.NewsResponse
-import model.source.Source
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ui.adapters.ArticlesAdapter
-import ui.adapters.SearchForNewsAdapter
-import ui.utils.OnClickSearch
+import ui.utils.OnClickArticle
 
-class SearchForNewsFragment : Fragment(), OnClickSearch {
+class SearchNewsFragment : Fragment(), OnClickArticle {
 
-    lateinit var binding: FragmentSearchForNewsBinding
-    private val adapter = SearchForNewsAdapter(this)
-    private var category: String? = ""
+    lateinit var binding: FragmentSearchNewsBinding
+    private val adapter = ArticlesAdapter(this)
+    private var q: String? = ""
     var articlesCon: List<Article> = emptyList()
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        binding = FragmentSearchForNewsBinding.inflate(layoutInflater)
+        binding = FragmentSearchNewsBinding.inflate(layoutInflater)
 
-        searchNews(category = category.toString())
+        searchNews("")
+
+
 
         return binding.root
     }
 
-    private fun searchNews(category: String) {
+    private fun searchNews(q: String) {
 
         val apiInterface = RetrofitInstance.api
 
         apiInterface.getNews(
-            category = category
+            q = q
         ).enqueue(object : Callback<NewsResponse> {
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 if (response.isSuccessful) {
@@ -61,7 +57,7 @@ class SearchForNewsFragment : Fragment(), OnClickSearch {
                         rcView.adapter = adapter
                         response.body()?.let {
                             articlesCon = it.articles
-                            adapter.addArticles(articlesCon)
+                            adapter.articlesList = articlesCon
                         }
                     }
                 }
@@ -71,6 +67,8 @@ class SearchForNewsFragment : Fragment(), OnClickSearch {
                 binding.shimmer.visibility = View.GONE
             }
         })
+
+
 
         // Realize SearchView
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -82,9 +80,16 @@ class SearchForNewsFragment : Fragment(), OnClickSearch {
             @SuppressLint("NotifyDataSetChanged")
             override fun onQueryTextChange(p0: String?): Boolean {
 
-                adapter.articlesList =
-                    p0?.let { articlesCon.filter { it.title.startsWith(p0, ignoreCase = true) } }
-                        ?: emptyList()
+                Log.e("TAG", "onQueryTextChange: $p0", )
+//                adapter.articlesList =
+//                    p0?.let { articlesCon.filter {
+//                        it.title.startsWith(p0, ignoreCase = true) } }
+//                        ?: emptyList()
+
+                if (p0 != "") {
+                    searchNews(q = p0.toString())
+                }
+
                 adapter.notifyDataSetChanged()
                 return false
 
@@ -92,10 +97,8 @@ class SearchForNewsFragment : Fragment(), OnClickSearch {
         })
     }
 
-    override fun onClickSearch(category: Article) {
-        val bundle = Bundle()
-        bundle.putString("category", category.url)
-        findNavController().navigate(R.id.searchForNewsFragment, bundle)
+    override fun onClickArticle(category: Article) {
+        TODO("Not yet implemented")
     }
 
 }

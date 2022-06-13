@@ -10,7 +10,7 @@ import model.articles.Article
 
 @Database(
     entities = [Article::class],
-    version = 7
+    version = 1
 )
 @TypeConverters(Converters::class)
 abstract class ArticleDatabase : RoomDatabase() {
@@ -20,9 +20,9 @@ abstract class ArticleDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var instance: ArticleDatabase? = null
-        private val LOCk = Any()
+        private val LOCK = Any()
 
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCk) {
+        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
             instance ?: createDatabase(context).also { instance = it }
         }
 

@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -16,13 +15,14 @@ import com.example.news.R
 import com.example.news.databinding.FragmentBookmarksBinding
 import com.google.android.material.snackbar.Snackbar
 import model.articles.Article
+import model.articles.Category
 import model.util.SwipeToDeleteCallback
 import ui.NewsViewModel
 import ui.adapters.ArticlesAdapter
-import ui.utils.OnClickCategory
+import ui.utils.OnClickArticle
 
 
-class BookmarksFragment : Fragment(), OnClickCategory {
+class BookmarksFragment : Fragment(), OnClickArticle {
 
     lateinit var binding : FragmentBookmarksBinding
     lateinit var viewModel: NewsViewModel
@@ -60,7 +60,7 @@ class BookmarksFragment : Fragment(), OnClickCategory {
         return binding.root
     }
 
-    override fun onClickCategory(category: Article) {
+    override fun onClickArticle(category: Article) {
         val bundle = Bundle()
 
         bundle.putBoolean("isOnline", false)

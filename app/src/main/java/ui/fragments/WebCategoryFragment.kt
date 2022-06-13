@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebViewClient
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.news.databinding.FragmentWebCategoryBinding
@@ -21,13 +20,13 @@ import java.io.File
 class WebCategoryFragment : Fragment() {
 
     lateinit var binding: FragmentWebCategoryBinding
-    lateinit var viewModel: NewsViewModel
+    private lateinit var viewModel: NewsViewModel
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentWebCategoryBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
 
@@ -35,6 +34,7 @@ class WebCategoryFragment : Fragment() {
             // WebViewClient allows you to handle
             // onPageFinished and override Url loading.
             webViewClient = WebViewClient()
+
             settings.allowFileAccess = true
             settings.javaScriptEnabled = true
             settings.setSupportZoom(true)
@@ -55,13 +55,18 @@ class WebCategoryFragment : Fragment() {
                     "Item$title"
                 )
 
-                if (arguments?.getBoolean("isOnline") == true){
-                    loadUrl(arguments?.getString("url") ?: "https://newsapi.org/")
-                }else{
-                    loadUrl("$file.mht")
+                if(arguments?.getString("category") != null) {
+                    loadUrl(arguments?.getString("category") ?: "https://newsapi.org/")
+                    binding.fab.visibility = View.GONE
+                } else {
+                    if (arguments?.getBoolean("isOnline") == true){
+                        loadUrl(arguments?.getString("url") ?: "https://newsapi.org/")
+                    }
+                    else{
+                        loadUrl("$file.mht")
+                    }
                 }
             }
-
         }
 
         binding.fab.setOnClickListener {
@@ -91,7 +96,7 @@ class WebCategoryFragment : Fragment() {
 
                    val currentItem = Article(0, "", "", "", "", Source("", arguments?.getString("source").toString()),
                         arguments?.getString("title").toString(), "", arguments?.getString("urlToImage").toString(),
-                        "", true)
+                        "", true, "")
 
 
                     viewModel.deleteArticleByTitle(arguments?.getString("title").toString())
@@ -107,10 +112,10 @@ class WebCategoryFragment : Fragment() {
 
     // if you press Back button this code will work
     /*override fun onBackPressed() {
-        // if your webview can go back it will go back
+        // if your webView can go back it will go back
         if (binding.webView.canGoBack())
             binding.webView.goBack()
-        // if your webview cannot go back
+        // if your webView cannot go back
         // it will exit the application
         else
             super.onBackPressed()

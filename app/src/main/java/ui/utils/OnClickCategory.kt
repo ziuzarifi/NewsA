@@ -1,9 +1,8 @@
 package ui.utils
 
-import model.articles.Article
-import model.source.Source
+import model.articles.Category
 
 
 interface OnClickCategory {
-    fun onClickCategory(category: Article)
+    fun onClickCategory(category: Category)
 }

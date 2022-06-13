@@ -18,18 +18,18 @@
         tools:layout="@layout/fragment_bookmarks" />
     <fragment
         android:id="@+id/categoriesFragment"
-        android:name="ui.fragments.CategoriesFragment"
+        android:name="ui.fragments.CategoryFragment"
         android:label="fragment_categories"
-        tools:layout="@layout/fragment_categories" >
+        tools:layout="@layout/fragment_category" >
         <action
             android:id="@+id/action_categoriesFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
-        android:name="ui.fragments.CategoryFragment"
+        android:name="ui.fragments.ArticleFragment"
         android:label="fragment_category"
-        tools:layout="@layout/fragment_category" >
+        tools:layout="@layout/fragment_article" >
         <action
             android:id="@+id/action_categoryFragment_to_webCategoryFragment"
             app:destination="@id/webCategoryFragment" />
@@ -50,6 +50,6 @@
     </fragment>
     <fragment
         android:id="@+id/searchForNewsFragment"
-        android:name="ui.fragments.SearchForNewsFragment"
+        android:name="ui.fragments.SearchNewsFragment"
         android:label="SearchForNewsFragment" />
 </navigation>

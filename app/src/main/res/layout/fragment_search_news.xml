@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ui.fragments.CategoriesFragment">
+    tools:context="ui.fragments.CategoryFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -60,6 +60,49 @@
 
         </androidx.appcompat.widget.Toolbar>
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_marginTop="154dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/rcView"
+            app:layout_constraintEnd_toEndOf="@id/rcView"
+            app:layout_constraintStart_toStartOf="@id/rcView"
+            app:layout_constraintTop_toTopOf="@id/rcView">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <include layout="@layout/shimmer_placeholder_layout" />
+
+                <include layout="@layout/shimmer_placeholder_layout" />
+
+                <include layout="@layout/shimmer_placeholder_layout" />
+
+                <include layout="@layout/shimmer_placeholder_layout" />
+
+                <include layout="@layout/shimmer_placeholder_layout" />
+
+                <include layout="@layout/shimmer_placeholder_layout" />
+
+                <include layout="@layout/shimmer_placeholder_layout" />
+
+                <include layout="@layout/shimmer_placeholder_layout" />
+
+                <include layout="@layout/shimmer_placeholder_layout" />
+
+                <include layout="@layout/shimmer_placeholder_layout" />
+
+
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"

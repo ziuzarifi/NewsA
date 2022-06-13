@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.news.R
+import com.example.news.databinding.ArticleItemBinding
 import com.example.news.databinding.CategoryItemBinding
 import model.articles.Article
-import ui.utils.OnClickCategory
+import ui.utils.OnClickArticle
 
 class ArticlesAdapter(
-    private val onClick: OnClickCategory
+    private val onClick: OnClickArticle
 ): RecyclerView.Adapter<ArticlesAdapter.ArticleHolder>() {
 
 
@@ -19,7 +20,7 @@ class ArticlesAdapter(
 
     class ArticleHolder(item: View): RecyclerView.ViewHolder(item) {
 
-        private val binding = CategoryItemBinding.bind(item)
+        private val binding = ArticleItemBinding.bind(item)
 
 
         fun bind(article: Article) = with(binding) {
@@ -38,7 +39,7 @@ class ArticlesAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.category_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.article_item, parent, false)
         return ArticleHolder(view)
     }
 
@@ -47,7 +48,7 @@ class ArticlesAdapter(
         holder.bind(articlesList[position])
 
         holder.itemView.setOnClickListener {
-            onClick.onClickCategory(currentItem)
+            onClick.onClickArticle(currentItem)
         }
     }
 

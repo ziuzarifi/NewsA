@@ -14,14 +14,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.news.R
 import com.example.news.databinding.FragmentSourcesBinding
 import model.api.RetrofitInstance
-import model.articles.Article
 import model.source.Source
 import model.source.SourceModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ui.adapters.SourcesAdapter
-import ui.utils.OnClickCategory
 import ui.utils.OnClickSources
 
 
